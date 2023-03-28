@@ -1,0 +1,159 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+
+header{
+    background-color: rgb(245, 245, 245);
+}
+header .logo{
+    margin:0;
+    padding: 25px 30px;
+    font-weight: bold;
+    color: blueviolet;
+    font-size: 1.6em;
+}
+header .container_nav{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header nav{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding-bottom: 25px;
+}
+
+header a{
+    padding: 5px 12px;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+header a:hover{
+    color: blueviolet;
+}
+
+.container{
+    position: relative;
+    top: 100px;
+    left: 20%;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 4px;
+    width: 60%;
+}
+
+.form{
+    margin: 30px 50px;
+    padding: 10px 30px;
+}
+label{
+    padding-top: 10px;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+#documento{
+    width: 100%;
+    margin: 10px 10px 20px;
+    padding: 2px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 2px;
+}
+
+#nom_user{
+    width: 24%;
+    margin: 10px 10px 20px;
+    padding: 2px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 2px;
+}
+
+#apellido_user{
+    width: 25%;
+    margin: 10px 10px 20px;
+    padding: 2px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 2px;
+}
+
+#phone{
+    width: 100%;
+    margin: 10px 10px 20px;
+    padding: 2px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 2px;
+}
+
+#email{
+    width: 100%;
+    margin: 10px 10px 20px;
+    padding: 2px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 2px;
+}
+
+#fecha, #hora{
+    width: 38%;
+    margin: 10px 10px 20px;
+    padding: 2px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 2px;
+}
+
+#doctor{
+    width: 100%;
+    margin: 10px 10px 20px;
+    padding: 2px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 2px;
+}
+
+.id_user{
+    display: none;
+}
+.boton{
+    position: relative;
+    left: 40%;
+    font-size: 1.25em;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    background-color: blueviolet;
+}
+.boton:hover{
+    background-color: rgb(128, 1, 113);
+    cursor: pointer;
+}
+@media (min-width:720px){
+    header{
+        width: 100%;
+    }
+    header .container_nav{
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    header nav{
+        flex-direction: row;
+        padding-bottom: 0;
+        padding-right: 20px;   
+    }
+
+}
