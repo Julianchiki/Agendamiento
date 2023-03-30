@@ -17,9 +17,10 @@ $sql = $con->query("SELECT * FROM usuario");
 ?>
 <?php
 session_start();
-if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== '2') {
+if (!isset($_SESSION['logged_in'])) {
   header("Location: ../login.php");
   exit();
+}elseif($_SESSION['logged_in'] && $_SESSION['user_role'] =='2' ){
   echo '<header>';
   echo '<div class="container_nav">';
   echo '<p class="logo">Agendamiento!</p>';
@@ -30,21 +31,21 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== '2') {
   echo '</nav>';
   echo '</div>';
   echo '</header>';
-
+  
 } else {
   echo '<header>';
-    echo '<div class="container_nav">';
-    echo '<p class="logo">Agendamiento!</p>';
-    echo '<nav>';
-    echo '<a href="index.php" style="text-decoration:none;">Agendar</a>';
-    echo '<a href="../index.php" style="text-decoration:none;">Citas</a>';
-    echo '<a href="consulta.php" style="text-decoration:none;">Consulta</a>';
-    echo '<a href="../rol.php" style="text-decoration:none;">Usuarios</a>';
-    echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+  echo '<div class="container_nav">';
+  echo '<p class="logo">Agendamiento!</p>';
+  echo '<nav>';
+  echo '<a href="index.php" style="text-decoration:none;">Agendar</a>';
+  echo '<a href="../index.php" style="text-decoration:none;">Citas</a>';
+  echo '<a href="consulta.php" style="text-decoration:none;">Consulta</a>';
+  echo '<a href="../rol.php" style="text-decoration:none;">Usuarios</a>';
+  echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
 
-    echo '</nav>';
-    echo '</div>';
-    echo '</header>';
+  echo '</nav>';
+  echo '</div>';
+  echo '</header>';
 }
 
 ?>

@@ -18,11 +18,11 @@ if (!$con) {
 // Obtener los datos del usuario
 $sql = "SELECT c.id as id_cita, c.fecha as fecha, c.hora as hora, 
         d.nombre as nombre_doctor, d.apellido as apellido_doctor,
-        d.especialidad as especialidad, u.nombre as nombre_cliente,
-        u.apellido as apellido_cliente, u.identificacion as documento, co.numero as consultorio, u.id as id_usuario, c.estado as estado
-        FROM citas c INNER JOIN usuario u ON c.id_usuario=u.id 
+        d.especialidad as especialidad, p.nombre as nombre_cliente,
+        p.apellido as apellido_cliente, p.documento as documento, co.numero as consultorio, p.id as id_usuario, c.estado as estado
+        FROM citas c INNER JOIN pacientes p ON c.id_paciente=p.id 
                     INNER JOIN doctor d ON c.id_doctor=d.id
-                    INNER JOIN consultorio co ON d.id_consultorio=co.id WHERE u.id = $id_usuario";
+                    INNER JOIN consultorio co ON d.id_consultorio=co.id WHERE p.id = $id_usuario";
 $resultado = mysqli_query($con, $sql);
 $usuario = mysqli_fetch_assoc($resultado);
 
@@ -52,7 +52,7 @@ $pdf->Line(10,110, 10, 30);
 $pdf->Line(10,110, 100, 110);        
 $pdf->SetXY(50, 60,);
 $pdf->Cell(0, 10, ' Hora Cita: ' . $usuario['hora'], 0, 1);
-$pdf->Output('datos_usuario.pdf', 'D');
+$pdf->Output('datos_cita.pdf', 'D');
 // Cerrar la conexión a la base de datos
 
 

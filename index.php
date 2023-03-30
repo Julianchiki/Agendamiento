@@ -1,24 +1,8 @@
 <?php
 session_start();
-// Conexión a la base de datos
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "agendamiento";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-$sql = $con->query("SELECT c.id as id_cita, c.fecha as fecha, c.hora as hora, 
-                    d.nombre as nombre_doctor, d.apellido as apellido_doctor,
-                    d.especialidad as especialidad, p.nombre as nombre_cliente,
-                    p.apellido as apellido_cliente, p.documento as documento, co.numero as consultorio, p.id as id_usuario
-                    FROM citas c INNER JOIN pacientes p ON c.id_paciente=p.id 
-                                 INNER JOIN doctor d ON c.id_doctor=d.id
-                                 INNER JOIN consultorio co ON d.id_consultorio=co.id");
-?>
-<?php
-session_start();
 if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== '1') {
-  
+  header("Location: login.php");
+  exit();
   echo '<header>';
   echo '<div class="container_nav">';
   echo '<p class="logo">Agendamiento!</p>';
@@ -39,33 +23,58 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== '1') {
     echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
     echo '<a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>';
     echo '<a href="rol.php" style="text-decoration:none;">Usuarios</a>';
-    echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+    echo '<a href="modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
 
     echo '</nav>';
     echo '</div>';
     echo '</header>';
 }
-header("Location: login.php");
-exit();
+
+
+// Conexión a la base de datos
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "agendamiento";
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+$sql = $conn->query("SELECT c.id as id_cita, c.fecha as fecha, c.hora as hora, c.estado as estado, 
+                    d.nombre as nombre_doctor, d.apellido as apellido_doctor,
+                    d.especialidad as especialidad, p.nombre as nombre_cliente,
+                    p.apellido as apellido_cliente, p.documento as documento, co.numero as consultorio, p.id as id_usuario
+                    FROM citas c INNER JOIN pacientes p ON c.id_paciente=p.id 
+                                 INNER JOIN doctor d ON c.id_doctor=d.id
+                                 INNER JOIN consultorio co ON d.id_consultorio=co.id");
 ?>
+
 
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Página de inicio</title>
+    <title>Listar</title>
+    <!-- CSS only Booststrap -->
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <!--fontawesome-->
+    <script src="https://kit.fontawesome.com/6364639265.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
+     <!--datables CSS básico-->
+     <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css"/>
+    <!--datables estilo bootstrap 4 CSS-->  
+    <link rel="stylesheet"  type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
+
+        <style>
+	table.dataTable thead{
+		background: blueviolet;
+		color:white;
+	}
+	</style>
 </head>
 <body>
-<<<<<<< HEAD
-  <h2>Bienvenido <?php echo $_SESSION["username"]; ?></h2>
-  <?php if (in_array("admin", $permisos)) { 
-    header("Location: i.php");?>
-  <?php } ?>
-  <?php if (in_array("secre", $permisos)) { 
-    header("Location: i.php");?>
-  <?php } ?>
-  <a href="login.php">Cerrar sesión</a>
-=======
-
   <h1 class="title">Citas Agendadas</h1>
     <div class="container">
         <table id="agenda" class="table-striped table-bordered" style="width: 100%">
@@ -79,6 +88,7 @@ exit();
                     <td>Nombres Cliente</td>
                     <td>Apellidos Cliente</td>
                     <td>Documento cliente</td>
+                    <td>Estado</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -95,6 +105,7 @@ exit();
                   <td><?php echo $agenda['nombre_cliente']?></td>        
                   <td><?php echo $agenda['apellido_cliente']?></td>        
                   <td><?php echo $agenda['documento']?></td>
+                  <td><?php echo $agenda['estado']?></td>
                      <!-- Button trigger modal -->
                     <td>
                       <button type="button" class="btn btn-primary editbtn" data-id="<?= $agenda['id_cita']?>" 
@@ -118,6 +129,7 @@ exit();
                     <form action="modelo/pdf.php" method="post">
                     <td>
                       <button type="submit" name="pdf" id="pdf" class="btn">
+                      <input type="hidden" id="id_user" name="id_user" value="<?= $agenda['id_usuario']; ?>">
                         <i class="fa-solid fa-file-pdf"></i>
                       </button>
                     </td>
@@ -235,6 +247,5 @@ exit();
 	 <script type="text/javascript" src="lib_js/main.js"></script>  
      <script src="sweetalert2/sweetalert2.all.min.js"></script>    
     
->>>>>>> 9685ea8256c392c293a94b13eddfc31d772fab09
 </body>
 </html>
