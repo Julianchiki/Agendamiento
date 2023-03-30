@@ -8,7 +8,7 @@ class PDF extends FPDF {
   // Define el encabezado del PDF
   function Header() {
     // Logo
-    $this->Image('../img/messi.jpg',10,6,30);
+
     // Fuente
     $this->SetFont('Arial','B',15);
     // Mover a la derecha
