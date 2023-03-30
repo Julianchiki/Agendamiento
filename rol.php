@@ -21,7 +21,8 @@ $sql = $con->query("SELECT u.nombre as nombre_cliente, u.apellido as apellido_cl
 <?php
 session_start();
 if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== '1') {
-  
+  header("Location: login.php");
+  exit();
   echo '<header>';
   echo '<div class="container_nav">';
   echo '<p class="logo">Agendamiento!</p>';
@@ -48,8 +49,6 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== '1') {
     echo '</div>';
     echo '</header>';
 }
-header("Location: login.php");
-exit();
 ?>
 
 <!DOCTYPE html>
