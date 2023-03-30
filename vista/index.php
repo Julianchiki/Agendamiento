@@ -15,6 +15,40 @@ include "../modelo/config.php";
 
 $sql = $con->query("SELECT * FROM usuario");
 ?>
+<?php
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== '2') {
+  header("Location: ../login.php");
+  exit();
+  echo '<header>';
+  echo '<div class="container_nav">';
+  echo '<p class="logo">Agendamiento!</p>';
+  echo '<nav>';
+  echo '<a href="consulta.php" style="text-decoration:none;">Consulta</a>';
+  echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+
+  echo '</nav>';
+  echo '</div>';
+  echo '</header>';
+
+} else {
+  echo '<header>';
+    echo '<div class="container_nav">';
+    echo '<p class="logo">Agendamiento!</p>';
+    echo '<nav>';
+    echo '<a href="index.php" style="text-decoration:none;">Agendar</a>';
+    echo '<a href="../index.php" style="text-decoration:none;">Citas</a>';
+    echo '<a href="consulta.php" style="text-decoration:none;">Consulta</a>';
+    echo '<a href="../rol.php" style="text-decoration:none;">Usuarios</a>';
+    echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+
+    echo '</nav>';
+    echo '</div>';
+    echo '</header>';
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,22 +59,16 @@ $sql = $con->query("SELECT * FROM usuario");
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="manifest" href="../img/site.webmanifest">
 
+    <!--fontawesome-->
+    <script src="https://kit.fontawesome.com/6364639265.js" crossorigin="anonymous"></script>
+
+
     <!--css-->
     <link rel="stylesheet" href="../css/style.css">
 
 </head>
 <body>
-  <header>
-    <div class="container_nav">
-      <p class="logo">Agendamiento!</p>
-      <nav>
-        <a href="index.php" style="text-decoration:none;">Agendar</a>
-        <a href="../index.php" style="text-decoration:none;">Citas</a>
-        <a href="consulta.php" style="text-decoration:none;">Consulta</a>
-      </nav>
-    </div>
-  </header>
-
+ 
  <div class="container">
   <div class="form">
   <form action="" method="post">
@@ -88,20 +116,20 @@ $sql = $con->query("SELECT * FROM usuario");
               
             
             
-            $query="INSERT INTO usuario(identificacion, nombre, apellido, telefono, correo) 
-            VALUES ('$documento', '$nombre_user','$apellido_user','$phone', '$email')";
+            $query="INSERT INTO pacientes(documento, nombre, apellido) 
+            VALUES ('$documento', '$nombre_user','$apellido_user')";
 
             if(mysqli_query($conexion, $query)){
               
-              $id_usuario = mysqli_insert_id($conexion);
+              $id_paciente = mysqli_insert_id($conexion);
 
               $query2 = "SELECT COUNT(*) as count FROM citas WHERE fecha = '$fecha' AND hora = '$hora'";
               $res= mysqli_query($conexion, $query2);
               $row=mysqli_fetch_assoc($res);
 
               if($row['count'] == 0){
-                $query2 = "INSERT INTO citas(fecha, hora, id_usuario, id_doctor) 
-                VALUES ('$fecha', '$hora', '$id_usuario','$doctor')";
+                $query2 = "INSERT INTO citas(fecha, hora, id_paciente, id_doctor) 
+                VALUES ('$fecha', '$hora', '$id_paciente','$doctor')";
                   }
                   else{
                     

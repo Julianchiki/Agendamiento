@@ -1,3 +1,39 @@
+<?php
+session_start();
+if (!isset($_SESSION['logged_in'])) {
+    header("Location: ../login.php");
+    exit();
+}elseif($_SESSION['logged_in'] && $_SESSION['user_role'] =='2' ){
+    echo '<header>';
+    echo '<div class="container_nav">';
+    echo '<p class="logo">Agendamiento!</p>';
+    echo '<nav>';
+    echo '<a href="consulta.php" style="text-decoration:none;">Consulta</a>';
+    echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+  
+    echo '</nav>';
+    echo '</div>';
+    echo '</header>';
+    
+} else {
+    echo '<header>';
+    echo '<div class="container_nav">';
+    echo '<p class="logo">Agendamiento!</p>';
+    echo '<nav>';
+    echo '<a href="index.php" style="text-decoration:none;">Agendar</a>';
+    echo '<a href="../index.php" style="text-decoration:none;">Citas</a>';
+    echo '<a href="consulta.php" style="text-decoration:none;">Consulta</a>';
+    echo '<a href="../rol.php" style="text-decoration:none;">Usuarios</a>';
+    echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+
+    echo '</nav>';
+    echo '</div>';
+    echo '</header>';
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +74,9 @@ rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxj
     <!--datables estilo bootstrap 4 CSS-->  
     <link rel="stylesheet"  type="text/css" href="../datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
 	
-  
+<!--fontawesome-->
+<script src="https://kit.fontawesome.com/6364639265.js" crossorigin="anonymous"></script>
+
 
 <!--font awesome con CDN-->  
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" 
@@ -55,18 +93,6 @@ rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxj
 </head>
 
 <body>
-<header>
-    <div class="container_nav">
-      <p class="logo">Agendamiento!</p>
-      <nav>
-        <a href="index.php" style="text-decoration:none;">Agendar</a>
-        <a href="../index.php" style="text-decoration:none;">Citas</a>
-        <a href="consulta.php" style="text-decoration:none;">Consulta</a>
-
-      </nav>
-    </div>
-  </header>
-
  
     <center>
         <br>
@@ -102,11 +128,11 @@ rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxj
       location.href = '../vista/fconsulta.php';</script>";
         }
         else{
-            $resultado = mysqli_query($conectar, "SELECT u.id as id_usuario, u.identificacion as identificacion, u.nombre as nombre, u.apellido as apellido, c.fecha as fecha, c.hora as hora, d.nombre as nombre_doctor, d.apellido as apellido_doctor, cu.numero as numero_consultorio FROM usuario u  
-            INNER JOIN citas c ON u.id=c.id_usuario
+            $resultado = mysqli_query($conectar, "SELECT p.id as id_usuario, p.documento as identificacion, p.nombre as nombre, p.apellido as apellido, c.fecha as fecha, c.hora as hora, d.nombre as nombre_doctor, d.apellido as apellido_doctor, cu.numero as numero_consultorio FROM pacientes p  
+            INNER JOIN citas c ON p.id=c.id_paciente
             INNER JOIN doctor d ON d.id=c.id_doctor
             INNER JOIN consultorio cu ON cu.id=d.id_consultorio
-            WHERE identificacion = '$identificacion'");
+            WHERE documento = '$identificacion'");
             
 
             while($consulta = mysqli_fetch_array($resultado))

@@ -1,29 +1,58 @@
 <?php
-session_start();
-include "modelo/config.php";
-require('fpdf/fpdf.php');
-$sql = $con->query("SELECT c.id as id_cita, c.fecha as fecha, c.hora as hora, 
-                    d.nombre as nombre_doctor, d.apellido as apellido_doctor,
-                    d.especialidad as especialidad, u.nombre as nombre_cliente,
-                    u.apellido as apellido_cliente, u.identificacion as documento, co.numero as consultorio, u.id as id_usuario, c.estado as estado
-                    FROM citas c INNER JOIN usuario u ON c.id_usuario=u.id 
-                                 INNER JOIN doctor d ON c.id_doctor=d.id
-                                 INNER JOIN consultorio co ON d.id_consultorio=co.id");
+include_once 'modelo/conexionuno.php';
+$objeto = new Conexion();
+$conexion = $objeto->Conectar();
+
+
+$consulta = "SELECT * FROM rol";
+$resultado = $conexion->prepare($consulta);
+$resultado->execute();
+$rol = $resultado->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <?php
-require_once('modelo/funciones.php');
-// Obtenemos los roles del usuario actual desde la base de datos
-$usuario = obtenerUsuarioPorId($_SESSION['username']);
-$roles = obtenerRolPorUsername($_SESSION['username']);
+include "modelo/config.php";
 
-// Creamos variables para determinar qué elementos se mostrarán u ocultarán en la vista
-
-$mostrarajuste = in_array('admin', $roles);
-$mostrarEliminar = in_array('administrador', $roles);
+$sql = $con->query("SELECT u.nombre as nombre_cliente, u.apellido as apellido_cliente, 
+                           u.identificacion as documento, u.id as id_usuario, r.id as id_rol, r.nombre as rol
+                           FROM usuario u INNER JOIN rol r ON r.id=u.id_rol");
 ?>
 
+<?php
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== '1') {
+  
+  echo '<header>';
+  echo '<div class="container_nav">';
+  echo '<p class="logo">Agendamiento!</p>';
+  echo '<nav>';
+  echo '<a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>';
+  echo '<a href="modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
 
+  echo '</nav>';
+  echo '</div>';
+  echo '</header>';
 
+} else {
+  echo '<header>';
+    echo '<div class="container_nav">';
+    echo '<p class="logo">Agendamiento!</p>';
+    echo '<nav>';
+    echo '<a href="vista/index.php" style="text-decoration:none;">Agendar</a>';
+    echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
+    echo '<a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>';
+    echo '<a href="rol.php" style="text-decoration:none;">Usuarios</a>';
+    echo '<a href="modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+
+    echo '</nav>';
+    echo '</div>';
+    echo '</header>';
+}
+header("Location: login.php");
+exit();
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Listar</title>
@@ -35,7 +64,6 @@ $mostrarEliminar = in_array('administrador', $roles);
     <script src="https://kit.fontawesome.com/6364639265.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
-    <link rel="stylesheet" type="text/css" href="css/index.css"/>
      <!--datables CSS básico-->
      <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css"/>
     <!--datables estilo bootstrap 4 CSS-->  
@@ -51,37 +79,16 @@ $mostrarEliminar = in_array('administrador', $roles);
 	</style>
 </head>
 <body>
-<header>
-    <div class="container_nav">
-      <p class="logo">Aprendices!</p>
-      <nav>
-        <a href="vista/index.php" style="text-decoration:none;">Agendar</a>
-        <a href="index.php" style="text-decoration:none;">Citas</a>
-        <a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>
-        <?php if ($mostrarajuste): ?>
-          <a  href="vista/formulariorol.php" style="text-decoration:none;">Ajustes</a>
-  <?php endif; ?>
-        
 
-      </nav>
-    </div>
-    
-  </header>
   <h1 class="title">Citas Agendadas</h1>
     <div class="container">
         <table id="agenda" class="table-striped table-bordered" style="width: 100%">
             <thead style="padding-right:50px">
                 <tr>
-                    <td># Cita</td>
-                    <td>Doctor</td>
-                    <td>Especialidad</td>
-                    <td>Fecha</td>
-                    <td>Hora</td>
-                    <td>Nombres Cliente</td>
-                    <td>Apellidos Cliente</td>
-                    <td>Documento cliente</td>
-                    <td>Estado de la cita</td>
-                    <td></td>
+                    <td>Nombres</td>
+                    <td>Apellidos</td>
+                    <td>Documento</td>
+                    <td>Rol</td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -89,22 +96,14 @@ $mostrarEliminar = in_array('administrador', $roles);
             <tbody style="padding-right:50px">
                 <?php foreach($sql as $agenda){?>
               <tr>
-                  <td><?php echo $agenda['id_cita']?></td>
-                  <td><?php echo $agenda['nombre_doctor']?> <?php echo $agenda['apellido_doctor']?></td>
-                  <td><?php echo $agenda['especialidad']?></td>   
-                  <td><?php echo $agenda['fecha']?></td>
-                  <td><?php echo $agenda['hora']?></td>    
                   <td><?php echo $agenda['nombre_cliente']?></td>        
                   <td><?php echo $agenda['apellido_cliente']?></td>        
                   <td><?php echo $agenda['documento']?></td>
-                  <td><?php echo $agenda['estado']?></td>
+                  <td><?php echo $agenda['rol']?></td>
                      <!-- Button trigger modal -->
                     <td>
-                      <button type="button" class="btn btn-primary editbtn" data-id="<?= $agenda['id_cita']?>" 
-                         data-ndoctor="<?= $agenda['nombre_doctor']?>" data-adoctor="<?= $agenda['apellido_doctor']?>" 
-                         data-espe="<?= $agenda['especialidad']?>" data-consul="<?= $agenda['consultorio']?>" 
-                         data-fecha="<?= $agenda['fecha']?>" data-hora="<?= $agenda['hora']?>" data-ncliente="<?= $agenda['nombre_cliente']?>"
-                         data-acliente="<?= $agenda['apellido_cliente']?>" data-docu="<?= $agenda['documento']?>" 
+                      <button type="button" class="btn btn-primary editbtn" data-ncliente="<?= $agenda['nombre_cliente']?>"
+                         data-acliente="<?= $agenda['apellido_cliente']?>" data-docu="<?= $agenda['documento']?>" data-rol="<?= $agenda['rol']?>"
                          data-iduser="<?= $agenda['id_usuario'] ?>"
                          data-bs-toggle="modal" data-bs-target="#exampleModal">
                          <i class="fa-solid fa-pen-to-square"></i>
@@ -117,14 +116,6 @@ $mostrarEliminar = in_array('administrador', $roles);
                           <i class="fa-solid fa-trash"></i>
                         </button>
                       </td>
-                    </form>
-                    <form action="modelo/pdf.php" method="post">
-                    <td>
-                      <button type="submit" name="pdf" id="pdf" class="btn">
-                      <input type="hidden" id="id_user" name="id_user" value="<?= $agenda['id_usuario']; ?>">
-                        <i class="fa-solid fa-file-pdf"></i>
-                      </button>
-                    </td>
                     </form>
                     <script>
                       function borrarRegistro(){
@@ -156,43 +147,39 @@ $mostrarEliminar = in_array('administrador', $roles);
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar cita</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar usuario</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="modelo/editar.php" method="post">
-          <div class="form-group">
-            <label >Fecha</label>
-            <input type="date" name="fecha" id="fecha" class="form-control">
-          </div>
-          <div class="form-group">
-            <label>Hora</label>
-            <input type="time" name="hora" id="hora" class="form-control">
-          </div>
+        <form action="modelo/editrol.php" method="post">
           <div class="form-group">
             <label>Nombre cliente</label>
             <input type="text" name="ncliente" id="ncliente" class="form-control">
           </div>
           <div class="form-group">
             <label>Apellido cliente</label>
-            <input type="text" name="acliente" id="acliente" class="form-control" >
+            <input type="text" name="acliente" id="acliente" class="form-control" ">
           </div>
           <div class="form-group">
             <label>Documento cliente</label>
-            <input type="number" name="docu" id="docu" class="form-control" >
+            <input type="number" name="docu" id="docu" class="form-control" ">
           </div>
           <div class="form-group">
-            <label>Estado de la cita</label>
-          <select name="estado" id="estado">
-            <option value="Activo">Activo</option>
-            <option value="Inactivo">Inactivo</option>
-          </select>
+            <label>Rol</label>
+            <select type="text" name="rol" id="rol" class="form-control" >
+              <?php
+              foreach ($rol as $r){
+                ?>
+                <option><?php echo $r['id']?> <?php echo $r['nombre']?></option>
+                <?php
+              }
+              ?>
+            </select>
           </div>
-            <input type="hidden" name="iduser" id="iduser" class="form-control" >
-            <input type="hidden" name="id" id="id" class="form-control" >
+            <input type="hidden" name="iduser" id="iduser" class="form-control" ">
             <div class="modal-footer">
               <button name="edit" type="submit" class="btn btn-primary">Guardar Cambios</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
           </div>  
         </form>
@@ -205,23 +192,17 @@ $mostrarEliminar = in_array('administrador', $roles);
 <script>
   $(document).ready(function() {
     $('.editbtn').click(function() {
-      var id = $(this).data('id');
       var iduser = $(this).data('iduser');
-      var fecha = $(this).data('fecha');
-      var hora = $(this).data('hora');
       var ncliente = $(this).data('ncliente');
       var acliente = $(this).data('acliente');
       var documento = $(this).data('docu');
-      var estado = $(this).data('estado');
+      var rol = $(this).data('rol');
 
-      $('#id').val(id);
       $('#iduser').val(iduser);
-      $('#fecha').val(fecha);
-      $('#hora').val(hora);
       $('#ncliente').val(ncliente);
       $('#acliente').val(acliente);
       $('#docu').val(documento);
-      $('#estado').val(estado);
+      $('#rol').val(rol);
 
     });
 });
@@ -247,7 +228,6 @@ $mostrarEliminar = in_array('administrador', $roles);
 	 <!-- código JS propìo-->    
 	 <script type="text/javascript" src="lib_js/main.js"></script>  
      <script src="sweetalert2/sweetalert2.all.min.js"></script>    
-    
     
 </body>
 </html>
