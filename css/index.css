@@ -76,4 +76,8 @@ header a:hover{
     .container table{
         font-weight: bold;
     }
+
+    .no_secre{
+        display: none;
+    }
 }

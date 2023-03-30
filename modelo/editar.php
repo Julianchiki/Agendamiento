@@ -7,11 +7,12 @@ $apellido_user=$_POST['acliente'];
 $id_user=$_POST['iduser'];
 $fecha=$_POST['fecha'];
 $date=$_POST['hora'];
+$estado=$_POST['estado'];
               
 mysqli_begin_transaction($conexion); 
 
 $query="UPDATE usuario u, citas c SET u.identificacion='$documento', u.nombre='$nombre_user', 
-u.apellido='$apellido_user', c.fecha='$fecha', c.hora='$date' WHERE u.id=$id_user AND c.id_usuario=$id_user";
+u.apellido='$apellido_user', c.fecha='$fecha', c.hora='$date', c.estado='$estado' WHERE u.id=$id_user AND c.id_usuario=$id_user";
 
 $resultado= mysqli_query($conexion, $query);
 
