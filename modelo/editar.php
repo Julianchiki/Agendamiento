@@ -11,8 +11,8 @@ $estado=$_POST['estado'];
               
 mysqli_begin_transaction($conexion); 
 
-$query="UPDATE usuario u, citas c SET u.identificacion='$documento', u.nombre='$nombre_user', 
-u.apellido='$apellido_user', c.fecha='$fecha', c.hora='$date', c.estado='$estado' WHERE u.id=$id_user AND c.id_usuario=$id_user";
+$query="UPDATE pacientes p, citas c SET p.documento='$documento', p.nombre='$nombre_user', 
+p.apellido='$apellido_user', c.fecha='$fecha', c.hora='$date', c.estado='$estado' WHERE p.id=$id_user AND c.id_paciente=$id_user";
 
 $resultado= mysqli_query($conexion, $query);
 

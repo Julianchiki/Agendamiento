@@ -189,6 +189,13 @@ $sql = $conn->query("SELECT c.id as id_cita, c.fecha as fecha, c.hora as hora, c
             <label>Documento cliente</label>
             <input type="number" name="docu" id="docu" class="form-control" ">
           </div>
+          <div class="form-group">
+            <label>Estado de la cita</label>
+          <select name="estado" id="estado">
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+          </div>
             <input type="hidden" name="iduser" id="iduser" class="form-control" ">
             <input type="hidden" name="id" id="id" class="form-control" ">
             <div class="modal-footer">
