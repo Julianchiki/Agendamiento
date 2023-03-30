@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-03-2023 a las 16:17:11
+-- Tiempo de generación: 30-03-2023 a las 16:54:01
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -32,15 +32,16 @@ CREATE TABLE `citas` (
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
   `id_paciente` int(11) NOT NULL,
-  `id_doctor` int(11) NOT NULL
+  `id_doctor` int(11) NOT NULL,
+  `estado` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `citas`
 --
 
-INSERT INTO `citas` (`id`, `fecha`, `hora`, `id_paciente`, `id_doctor`) VALUES
-(2, '2023-03-30', '15:59:00', 1, 1);
+INSERT INTO `citas` (`id`, `fecha`, `hora`, `id_paciente`, `id_doctor`, `estado`) VALUES
+(2, '2023-03-30', '15:59:00', 1, 1, 'Activo');
 
 -- --------------------------------------------------------
 
