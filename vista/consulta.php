@@ -1,36 +1,5 @@
 <?php
 session_start();
-if (!isset($_SESSION['logged_in'])) {
-    header("Location: ../login.php");
-    exit();
-}elseif($_SESSION['logged_in'] && $_SESSION['user_role'] =='2' ){
-    echo '<header>';
-    echo '<div class="container_nav">';
-    echo '<p class="logo">Agendamiento!</p>';
-    echo '<nav>';
-    echo '<a href="consulta.php" style="text-decoration:none;">Consulta</a>';
-    echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
-  
-    echo '</nav>';
-    echo '</div>';
-    echo '</header>';
-    
-} else {
-    echo '<header>';
-    echo '<div class="container_nav">';
-    echo '<p class="logo">Agendamiento!</p>';
-    echo '<nav>';
-    echo '<a href="index.php" style="text-decoration:none;">Agendar</a>';
-    echo '<a href="../index.php" style="text-decoration:none;">Citas</a>';
-    echo '<a href="consulta.php" style="text-decoration:none;">Consulta</a>';
-    echo '<a href="../rol.php" style="text-decoration:none;">Usuarios</a>';
-    echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
-
-    echo '</nav>';
-    echo '</div>';
-    echo '</header>';
-}
-
 ?>
 
 
@@ -93,11 +62,44 @@ rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxj
 </head>
 
 <body>
- 
+<?php
+if (!isset($_SESSION['logged_in'])) {
+    header("Location: ../login.php");
+    exit();
+}elseif($_SESSION['logged_in'] && $_SESSION['user_role'] =='2' ){
+    echo '<header>';
+    echo '<div class="container_nav">';
+    echo '<p class="logo">Agendamiento!</p>';
+    echo '<nav>';
+    echo '<a href="consulta.php" style="text-decoration:none;">Consulta</a>';
+    echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+  
+    echo '</nav>';
+    echo '</div>';
+    echo '</header>';
+    
+} else {
+    echo '<header>';
+    echo '<div class="container_nav">';
+    echo '<p class="logo">Agendamiento!</p>';
+    echo '<nav>';
+    echo '<a href="index.php" style="text-decoration:none;">Agendar</a>';
+    echo '<a href="../index.php" style="text-decoration:none;">Citas</a>';
+    echo '<a href="consulta.php" style="text-decoration:none;">Consulta</a>';
+    echo '<a href="../rol.php" style="text-decoration:none;">Usuarios</a>';
+    echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+
+    echo '</nav>';
+    echo '</div>';
+    echo '</header>';
+}
+?>
+
     <center>
         <br>
 <div id="container">
     <h2>Consulta de Paciente</h2>
+
 <form action="" method="post">
     <table>
         <tr>
@@ -111,11 +113,14 @@ rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxj
         <tr>
         <td colspan="2"></td>
     </table>
+</form>
+    
     <br>
     </center>
 
     <?php
     
+    $url="../modelo/pdf.php";
     include_once "../modelo/conexioncrud.php";
     if(isset($_POST['btn_consultar']))
     {
@@ -133,38 +138,51 @@ rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxj
             INNER JOIN doctor d ON d.id=c.id_doctor
             INNER JOIN consultorio cu ON cu.id=d.id_consultorio
             WHERE documento = '$identificacion'");
+            ?>
             
-
+<form action='../modelo/pdf.php' method='post'>
+<?php
             while($consulta = mysqli_fetch_array($resultado))
             {
+                
                 echo "
-                <center><table id='andres' width=\"70%\border\"1\">
+                <center><table id='andres' width='70%' border='1'>
                 <thead>
-                <tr>
-                <td><center><b>N° Documento </b></center></td>
-                <td><center><b>Nombre </b></center></td>
-                <td><center><b>Apellido </b></center></td>
-                <td><center><b>Fecha Cita </b></center></td>
-                <td><center><b>Hora </b></center></td>
-                <td><center><b>Doctor </b></center></td>
-                <td><center><b>Apellido </b></center></td>
-                <td><center><b>Consultorio </b></center></td>
-                </tr>
+                    <tr>
+                        <td><center><b>N° Documento</b></center></td>
+                        <td><center><b>Nombre</b></center></td>
+                        <td><center><b>Apellido</b></center></td>
+                        <td><center><b>Fecha Cita</b></center></td>
+                        <td><center><b>Hora</b></center></td>
+                        <td><center><b>Doctor</b></center></td>
+                        <td><center><b>Apellido</b></center></td>
+                        <td><center><b>Consultorio</b></center></td>
+                        <td><center><b></b></center></td>
+                        
                 </thead>
                 <tbody>
-                <tr>
-                <td><center>".$consulta['identificacion']."</center></td>
-                <td><center>".$consulta['nombre']."</center></td>
-                <td><center>".$consulta['apellido']."</center></td>
-                <td><center>".$consulta['fecha']."</center></td>
-                <td><center>".$consulta['hora']."</center></td>
-                <td><center>".$consulta['nombre_doctor']."</center></td>
-                <td><center>".$consulta['apellido_doctor']."</center></td>
-                <td><center>".$consulta['numero_consultorio']."</center></td>
                 
-                </tr>
+                    <tr>
+                        <td><center>".$consulta['identificacion']."</center></td>
+                        <td><center>".$consulta['nombre']."</center></td>
+                        <td><center>".$consulta['apellido']."</center></td>
+                        <td><center>".$consulta['fecha']."</center></td>
+                        <td><center>".$consulta['hora']."</center></td>
+                        <td><center>".$consulta['nombre_doctor']."</center></td>
+                        <td><center>".$consulta['apellido_doctor']."</center></td>
+                        <td><center>".$consulta['numero_consultorio']."</center></td>
+                        <td>
+                            
+                                <input type='hidden' name='id_user' id='id_user' value='".$consulta['id_usuario']."'>
+                                <button type='submit' name='pdf' id='pdf' class='btn'>
+                                    <i class='fa-solid fa-file-pdf'></i>
+                                </button>
+                            
+                        </td>
+                    </tr>
+                
                 </tbody>
-                </table></center>";
+            </table></center>";
 
                 $existe++;
 
@@ -176,12 +194,15 @@ rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxj
 
                 
             }
+            ?>
+            </form>
+            <?php
         }
     }
 
 
 ?>
-</form>
+
 </div>
 <!-- jQuery, Popper.js, Bootstrap JS -->
  <!-- jQuery, Popper.js, Bootstrap JS -->

@@ -128,7 +128,7 @@ $sql = $conn->query("SELECT c.id as id_cita, c.fecha as fecha, c.hora as hora, c
                     </form>
                     <form action="modelo/pdf.php" method="post">
                     <td>
-                      <button type="submit" name="pdf" id="pdf" class="btn">
+                      <button type="submit" name="pdf" id="pdf" class="btn">  
                       <input type="hidden" id="id_user" name="id_user" value="<?= $agenda['id_usuario']; ?>">
                         <i class="fa-solid fa-file-pdf"></i>
                       </button>
@@ -183,11 +183,11 @@ $sql = $conn->query("SELECT c.id as id_cita, c.fecha as fecha, c.hora as hora, c
           </div>
           <div class="form-group">
             <label>Apellido cliente</label>
-            <input type="text" name="acliente" id="acliente" class="form-control" ">
+            <input type="text" name="acliente" id="acliente" class="form-control" >
           </div>
           <div class="form-group">
             <label>Documento cliente</label>
-            <input type="number" name="docu" id="docu" class="form-control" ">
+            <input type="number" name="docu" id="docu" class="form-control" >
           </div>
           <div class="form-group">
             <label>Estado de la cita</label>
@@ -196,8 +196,8 @@ $sql = $conn->query("SELECT c.id as id_cita, c.fecha as fecha, c.hora as hora, c
             <option value="Inactivo">Inactivo</option>
           </select>
           </div>
-            <input type="hidden" name="iduser" id="iduser" class="form-control" ">
-            <input type="hidden" name="id" id="id" class="form-control" ">
+            <input type="hidden" name="iduser" id="iduser" class="form-control" >
+            <input type="hidden" name="id" id="id" class="form-control" >
             <div class="modal-footer">
               <button name="edit" type="submit" class="btn btn-primary">Guardar Cambios</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
