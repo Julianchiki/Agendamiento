@@ -1,34 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== '1') {
-  header("Location: login.php");
-  exit();
-  echo '<header>';
-  echo '<div class="container_nav">';
-  echo '<p class="logo">Agendamiento!</p>';
-  echo '<nav>';
-  echo '<a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>';
-  echo '<a href="modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
 
-  echo '</nav>';
-  echo '</div>';
-  echo '</header>';
-
-} else {
-  echo '<header>';
-    echo '<div class="container_nav">';
-    echo '<p class="logo">Agendamiento!</p>';
-    echo '<nav>';
-    echo '<a href="vista/index.php" style="text-decoration:none;">Agendar</a>';
-    echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
-    echo '<a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>';
-    echo '<a href="rol.php" style="text-decoration:none;">Usuarios</a>';
-    echo '<a href="modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
-
-    echo '</nav>';
-    echo '</div>';
-    echo '</header>';
-}
 
 
 // Conexión a la base de datos
@@ -75,6 +47,51 @@ $sql = $conn->query("SELECT c.id as id_cita, c.fecha as fecha, c.hora as hora, c
 	</style>
 </head>
 <body>
+<?php  
+if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1') {
+    echo '<header>';
+    echo '<div class="container_nav">';
+    echo '<p class="logo">Agendamiento!</p>';
+    echo '<nav>';
+    echo '<a href="vista/index.php" style="text-decoration:none;">Agendar</a>';
+    echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
+    echo '<a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>';
+    echo '<a href="rol.php" style="text-decoration:none;">Usuarios</a>';
+    echo '<a href="modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+
+    echo '</nav>';
+    echo '</div>';
+    echo '</header>';
+}elseif($_SESSION['logged_in'] && $_SESSION['user_role'] =='2'){
+    echo '<header>';
+    echo '<div class="container_nav">';
+    echo '<p class="logo">Agendamiento!</p>';
+    echo '<nav>';
+    echo '<a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>';
+    echo '<a href="modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+  
+    echo '</nav>';
+    echo '</div>';
+    echo '</header>';
+} else {
+    echo '<header>';
+    echo '<div class="container_nav">';
+    echo '<p class="logo">Agendamiento!</p>';
+    echo '<nav>';
+    echo '<a href="vista/index.php" style="text-decoration:none;">Agendar</a>';
+    echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
+    echo '<a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>';
+    echo '<a href="modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+  
+    echo '</nav>';
+    echo '</div>';
+    echo '</header>';
+}
+if (!isset($_SESSION['logged_in'])){
+    header("Location: login.php");
+    exit();
+}
+?>
   <h1 class="title">Citas Agendadas</h1>
     <div class="container">
         <table id="agenda" class="table-striped table-bordered" style="width: 100%">
