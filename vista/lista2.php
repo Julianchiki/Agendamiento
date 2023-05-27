@@ -30,8 +30,12 @@
                   <td><?php echo $agenda['apellido_cliente']?></td>        
                   <td><?php echo $agenda['documento']?></td>
                   <td><?php echo $agenda['estado']?></td>
-                  <td><?php echo $agenda['observacion']?></td>
-                     <!-- Button trigger modal -->
+                  <td><?php $maxCaracteres = 20;
+                  $observacion = $agenda['observacion'];
+                    if (strlen($observacion) > $maxCaracteres) {
+                        $observacion = substr($observacion, 0, $maxCaracteres) . '...';
+                    }  echo $observacion?></td>
+                 ¿
                     <td>
                       <button type="button" class="btn btn-primary editbtn" data-id="<?= $agenda['id_cita']?>" 
                          data-ndoctor="<?= $agenda['nombre_doctor']?>" data-adoctor="<?= $agenda['apellido_doctor']?>" 

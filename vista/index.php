@@ -39,7 +39,7 @@ session_start();
 </head>
 <body>
  <?php
- if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1'){
+ if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && $_SESSION['user_role'] =='1'){
   echo '<header>';
   echo '<div class="container_nav">';
   echo '<p class="logo">Agendamiento!</p>';
@@ -55,7 +55,7 @@ session_start();
   echo '</header>';
 }
 
-else if($_SESSION['logged_in'] && $_SESSION['user_role'] =='3'){
+else if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && $_SESSION['user_role'] =='3'){
   echo '<header>';
   echo '<div class="container_nav">';
   echo '<p class="logo">Agendamiento!</p>';
@@ -69,7 +69,7 @@ else if($_SESSION['logged_in'] && $_SESSION['user_role'] =='3'){
   echo '</div>';
   echo '</header>';
   }
-else if($_SESSION['logged_in'] && $_SESSION['user_role'] =='4'){
+  else if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && $_SESSION['user_role'] =='4'){
   echo '<header>';
   echo '<div class="container_nav">';
   echo '<p class="logo">Agendamiento!</p>';
@@ -82,9 +82,9 @@ else if($_SESSION['logged_in'] && $_SESSION['user_role'] =='4'){
   echo '</div>';
   echo '</header>';
   }
-if(!isset($_SESSION)){
-  header("Location: ../login.php");
-}
+else if(!isset($_SESSION['logged_in'])){
+    header("Location:../login.php");
+  }
 ?>
  <div class="container">
   <div class="form">

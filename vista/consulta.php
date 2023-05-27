@@ -63,7 +63,7 @@ rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxj
 
 <body>
 <?php
-if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1'){
+if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && $_SESSION['user_role'] =='1'){
     echo '<header>';
     echo '<div class="container_nav">';
     echo '<p class="logo">Agendamiento!</p>';
@@ -78,7 +78,7 @@ if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1'){
     echo '</div>';
     echo '</header>';
   }
-  elseif($_SESSION['logged_in'] && $_SESSION['user_role'] =='2' ){
+  else if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && $_SESSION['user_role'] =='2'){
     echo '<header>';
     echo '<div class="container_nav">';
     echo '<p class="logo">Agendamiento!</p>';
@@ -91,7 +91,7 @@ if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1'){
     echo '</header>';
     
   } 
-  else if($_SESSION['logged_in'] && $_SESSION['user_role'] =='3'){
+  else if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && $_SESSION['user_role'] =='3'){
     echo '<header>';
     echo '<div class="container_nav">';
     echo '<p class="logo">Agendamiento!</p>';
@@ -105,7 +105,7 @@ if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1'){
     echo '</div>';
     echo '</header>';
     }
-  else if($_SESSION['logged_in'] && $_SESSION['user_role'] =='4'){
+ else if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && $_SESSION['user_role'] =='4'){
     echo '<header>';
     echo '<div class="container_nav">';
     echo '<p class="logo">Agendamiento!</p>';
@@ -118,9 +118,9 @@ if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1'){
     echo '</div>';
     echo '</header>';
     }
-  if(!isset($_SESSION)){
-    header("Location: ../login.php");
-  }
+else if(!isset($_SESSION['logged_in'])){
+    header("Location:../login.php");
+    }
 ?>
 
     <center>

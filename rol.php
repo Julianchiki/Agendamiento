@@ -67,9 +67,9 @@ if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_
   echo '</header>';
 }
 
-if(!isset($_SESSION)){
-  header("Location: ../login.php");
-} 
+else if(!isset($_SESSION['logged_in'])){
+  header("Location:login.php");
+}
 ?>
 
   <h1 class="title">Citas Agendadas</h1>
