@@ -51,49 +51,25 @@ session_start();
 </head>
 <body>
   <?php 
-   if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1') {
-    echo '<header>';
-    echo '<div class="container_nav">';
-    echo '<p class="logo">Agendamiento!</p>';
-    echo '<nav>';
-    echo '<a href="vista/index.php" style="text-decoration:none;">Agendar</a>';
-    echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
-    echo '<a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>';
-    echo '<a href="rol.php" style="text-decoration:none;">Usuarios</a>';
-    echo '<a href="modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1'){
+  echo '<header>';
+  echo '<div class="container_nav">';
+  echo '<p class="logo">Agendamiento!</p>';
+  echo '<nav>';
+  echo '<a href="./vista/index.php" style="text-decoration:none;">Agendar</a>';
+  echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
+  echo '<a href="./vista/consulta.php" style="text-decoration:none;">Consulta</a>';
+  echo '<a href="rol.php" style="text-decoration:none;">Usuarios</a>';
+  echo '<a href="./modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
 
-    echo '</nav>';
-    echo '</div>';
-    echo '</header>';
-}elseif($_SESSION['logged_in'] && $_SESSION['user_role'] =='2'){
-    echo '<header>';
-    echo '<div class="container_nav">';
-    echo '<p class="logo">Agendamiento!</p>';
-    echo '<nav>';
-    echo '<a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>';
-    echo '<a href="modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
-  
-    echo '</nav>';
-    echo '</div>';
-    echo '</header>';
-} else {
-    echo '<header>';
-    echo '<div class="container_nav">';
-    echo '<p class="logo">Agendamiento!</p>';
-    echo '<nav>';
-    echo '<a href="vista/index.php" style="text-decoration:none;">Agendar</a>';
-    echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
-    echo '<a href="vista/consulta.php" style="text-decoration:none;">Consulta</a>';
-    echo '<a href="modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
-  
-    echo '</nav>';
-    echo '</div>';
-    echo '</header>';
+  echo '</nav>';
+  echo '</div>';
+  echo '</header>';
 }
-if (!isset($_SESSION['logged_in'])){
-    header("Location: login.php");
-    exit();
-}
+
+if(!isset($_SESSION)){
+  header("Location: ../login.php");
+} 
 ?>
 
   <h1 class="title">Citas Agendadas</h1>

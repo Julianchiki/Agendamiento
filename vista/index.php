@@ -54,20 +54,8 @@ session_start();
   echo '</div>';
   echo '</header>';
 }
-elseif($_SESSION['logged_in'] && $_SESSION['user_role'] =='2' ){
-  echo '<header>';
-  echo '<div class="container_nav">';
-  echo '<p class="logo">Agendamiento!</p>';
-  echo '<nav>';
-  echo '<a href="../consulta.php" style="text-decoration:none;">Consulta</a>';
-  echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
 
-  echo '</nav>';
-  echo '</div>';
-  echo '</header>';
-  
-} else {
-  if($_SESSION['logged_in'] && $_SESSION['user_role'] =='3'){
+else if($_SESSION['logged_in'] && $_SESSION['user_role'] =='3'){
   echo '<header>';
   echo '<div class="container_nav">';
   echo '<p class="logo">Agendamiento!</p>';
@@ -81,7 +69,19 @@ elseif($_SESSION['logged_in'] && $_SESSION['user_role'] =='2' ){
   echo '</div>';
   echo '</header>';
   }
-}
+else if($_SESSION['logged_in'] && $_SESSION['user_role'] =='4'){
+  echo '<header>';
+  echo '<div class="container_nav">';
+  echo '<p class="logo">Agendamiento!</p>';
+  echo '<nav>';
+  echo '<a href="../index.php" style="text-decoration:none;">Citas</a>';
+  echo '<a href="consulta.php" style="text-decoration:none;">Consulta</a>';
+  echo '<a href="../modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+
+  echo '</nav>';
+  echo '</div>';
+  echo '</header>';
+  }
 if(!isset($_SESSION)){
   header("Location: ../login.php");
 }
@@ -103,6 +103,7 @@ if(!isset($_SESSION)){
     <label>Correo:</label>
     <input type="email" name="email" id="email">
     <label>Nombres doctor:</label>
+
     <select class="form-control" name="doctor">
             <option id="doctor">---Seleccione---</option>
             <?php

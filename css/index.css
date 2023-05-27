@@ -81,3 +81,11 @@ header a:hover{
         display: none;
     }
 }
+
+.expandible-input {
+    resize: vertical;
+    min-height: 50px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  

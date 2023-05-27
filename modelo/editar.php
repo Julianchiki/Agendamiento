@@ -7,12 +7,20 @@ $apellido_user=$_POST['acliente'];
 $id_user=$_POST['iduser'];
 $fecha=$_POST['fecha'];
 $date=$_POST['hora'];
+$observacion = isset($_POST['observacion']) ? $_POST['observacion'] : null;
 $estado=$_POST['estado'];
+
               
 mysqli_begin_transaction($conexion); 
 
 $query="UPDATE pacientes p, citas c SET p.documento='$documento', p.nombre='$nombre_user', 
-p.apellido='$apellido_user', c.fecha='$fecha', c.hora='$date', c.estado='$estado' WHERE p.id=$id_user AND c.id_paciente=$id_user";
+p.apellido='$apellido_user', c.fecha='$fecha', c.hora='$date', c.estado='$estado' ";
+
+if ($observacion !== null) {
+    $query .= ", c.observacion='$observacion'";
+}
+
+$query .= " WHERE p.id=$id_user AND c.id_paciente=$id_user";
 
 $resultado= mysqli_query($conexion, $query);
 
