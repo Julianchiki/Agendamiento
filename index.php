@@ -48,7 +48,7 @@ $sql = $conn->query("SELECT c.id as id_cita, c.fecha as fecha, c.hora as hora, c
 </head>
 <body>
 <?php  
-if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1'){
+if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && $_SESSION['user_role'] =='1') {
   echo '<header>';
   echo '<div class="container_nav">';
   echo '<p class="logo">Agendamiento!</p>';
@@ -64,91 +64,91 @@ if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1'){
   echo '</header>';
 }
 
-else if($_SESSION['logged_in'] && $_SESSION['user_role'] =='3'){
-  echo '<header>';
-  echo '<div class="container_nav">';
-  echo '<p class="logo">Agendamiento!</p>';
-  echo '<nav>';
-  echo '<a href="./vista/index.php" style="text-decoration:none;">Agendar</a>';
-  echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
-  echo '<a href="./vista/consulta.php" style="text-decoration:none;">Consulta</a>';
-  echo '<a href="./modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
 
-  echo '</nav>';
-  echo '</div>';
-  echo '</header>';
+else if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && $_SESSION['user_role'] =='3') {
+    echo '<header>';
+    echo '<div class="container_nav">';
+    echo '<p class="logo">Agendamiento!</p>';
+    echo '<nav>';
+    echo '<a href="./vista/index.php" style="text-decoration:none;">Agendar</a>';
+    echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
+    echo '<a href="./vista/consulta.php" style="text-decoration:none;">Consulta</a>';
+    echo '<a href="./modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
 
-  echo '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
-  echo '  <div class="modal-dialog">';
-  echo '    <div class="modal-content">';
-  echo '      <div class="modal-header">';
-  echo '        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar cita</h1>';
-  echo '        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
-  echo '      </div>';
-  echo '      <div class="modal-body">';
-  echo '        <form action="modelo/editar.php" method="post">';
-  echo '          <div class="form-group">';
-  echo '            <label>Fecha</label>';
-  echo '            <input type="date" name="fecha" id="fecha" class="form-control">';
-  echo '          </div>';
-  echo '          <div class="form-group">';
-  echo '            <label>Hora</label>';
-  echo '            <input type="time" name="hora" id="hora" class="form-control">';
-  echo '          </div>';
-  echo '          <div class="form-group">';
-  echo '            <label>Nombre cliente</label>';
-  echo '            <input type="text" name="ncliente" id="ncliente" class="form-control">';
-  echo '          </div>';
-  echo '          <div class="form-group">';
-  echo '            <label>Apellido cliente</label>';
-  echo '            <input type="text" name="acliente" id="acliente" class="form-control">';
-  echo '          </div>';
-  echo '          <div class="form-group">';
-  echo '            <label>Documento cliente</label>';
-  echo '            <input type="number" name="docu" id="docu" class="form-control">';
-  echo '          </div>';
-  echo '          <div class="form-group">';
-  echo '            <label>Estado de la cita</label>';
-  echo '            <select name="estado" id="estado">';
-  echo '              <option value="Activo">Activo</option>';
-  echo '              <option value="Inactivo">Inactivo</option>';
-  echo '            </select>';
-  echo '          </div>';
-  echo '          <input type="hidden" name="iduser" id="iduser" class="form-control">';
-  echo '          <input type="hidden" name="id" id="id" class="form-control">';
-  echo '          <div class="modal-footer">';
-  echo '            <button name="edit" type="submit" class="btn btn-primary">Guardar Cambios</button>';
-  echo '            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>';
-  echo '          </div>';
-  echo '        </form>';
-  echo '      </div>';
-  echo '    </div>';
-  echo '  </div>';
-  echo '</div>';
-  include './vista/lista.php';
+    echo '</nav>';
+    echo '</div>';
+    echo '</header>';
 
-  }
-else if($_SESSION['logged_in'] && $_SESSION['user_role'] =='4'){
-  echo '<header>';
-  echo '<div class="container_nav">';
-  echo '<p class="logo">Agendamiento!</p>';
-  echo '<nav>';
-  echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
-  echo '<a href="./vista/consulta.php" style="text-decoration:none;">Consulta</a>';
-  echo '<a href="./modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+    echo '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+    echo '  <div class="modal-dialog">';
+    echo '    <div class="modal-content">';
+    echo '      <div class="modal-header">';
+    echo '        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar cita</h1>';
+    echo '        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+    echo '      </div>';
+    echo '      <div class="modal-body">';
+    echo '        <form action="modelo/editar.php" method="post">';
+    echo '          <div class="form-group">';
+    echo '            <label>Fecha</label>';
+    echo '            <input type="date" name="fecha" id="fecha" class="form-control">';
+    echo '          </div>';
+    echo '          <div class="form-group">';
+    echo '            <label>Hora</label>';
+    echo '            <input type="time" name="hora" id="hora" class="form-control">';
+    echo '          </div>';
+    echo '          <div class="form-group">';
+    echo '            <label>Nombre cliente</label>';
+    echo '            <input type="text" name="ncliente" id="ncliente" class="form-control">';
+    echo '          </div>';
+    echo '          <div class="form-group">';
+    echo '            <label>Apellido cliente</label>';
+    echo '            <input type="text" name="acliente" id="acliente" class="form-control">';
+    echo '          </div>';
+    echo '          <div class="form-group">';
+    echo '            <label>Documento cliente</label>';
+    echo '            <input type="number" name="docu" id="docu" class="form-control">';
+    echo '          </div>';
+    echo '          <div class="form-group">';
+    echo '            <label>Estado de la cita</label>';
+    echo '            <select name="estado" id="estado">';
+    echo '              <option value="Activo">Activo</option>';
+    echo '              <option value="Inactivo">Inactivo</option>';
+    echo '            </select>';
+    echo '          </div>';
+    echo '          <input type="hidden" name="iduser" id="iduser" class="form-control">';
+    echo '          <input type="hidden" name="id" id="id" class="form-control">';
+    echo '          <div class="modal-footer">';
+    echo '            <button name="edit" type="submit" class="btn btn-primary">Guardar Cambios</button>';
+    echo '            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>';
+    echo '          </div>';
+    echo '        </form>';
+    echo '      </div>';
+    echo '    </div>';
+    echo '  </div>';
+    echo '</div>';
+    include './vista/lista.php';
 
-  echo '</nav>';
-  echo '</div>';
-  echo '</header>';
-  }
-if(!isset($_SESSION)){
-  header("Location: ../login.php");
+    }
+else if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && $_SESSION['user_role'] =='4') {     
+      echo '<header>';
+      echo '<div class="container_nav">';
+      echo '<p class="logo">Agendamiento!</p>';
+      echo '<nav>';
+      echo '<a href="index.php" style="text-decoration:none;">Citas</a>';
+      echo '<a href="./vista/consulta.php" style="text-decoration:none;">Consulta</a>';
+      echo '<a href="./modelo/logout.php" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>';
+
+      echo '</nav>';
+      echo '</div>';
+      echo '</header>';
+      }
+
+else if(!isset($_SESSION['logged_in'])){
+  header("Location:login.php");
 }
-?>
- 
-<!-- Modal -->
-<?php  
-if ($_SESSION['logged_in'] && ($_SESSION['user_role'] == '4' || $_SESSION['user_role'] == '1')) {
+
+  
+if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && ($_SESSION['user_role'] == '4' || $_SESSION['user_role'] == '1')) {
   echo '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 echo '  <div class="modal-dialog">';
 echo '    <div class="modal-content">';
@@ -201,10 +201,6 @@ echo '    </div>';
 echo '  </div>';
 echo '</div>';
 include './vista/lista2.php';
-
-
-}else{
-
 }
 ?>
 

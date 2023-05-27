@@ -51,7 +51,7 @@ session_start();
 </head>
 <body>
   <?php 
-if ($_SESSION['logged_in'] && $_SESSION['user_role'] =='1'){
+if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'] && array_key_exists('user_role', $_SESSION) && $_SESSION['user_role'] =='1') {
   echo '<header>';
   echo '<div class="container_nav">';
   echo '<p class="logo">Agendamiento!</p>';
